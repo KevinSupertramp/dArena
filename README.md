@@ -1,4 +1,4 @@
 dArena
 ======
 
-Dofus Arena 2.01 Beta emulator
+Dofus Arena 2.06 Beta emulator writtent in C++ with the Qt Library.
