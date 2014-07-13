@@ -87,7 +87,7 @@ void WorldSession::HandleCoachMovement(WorldPacket& packet)
     WorldPacket data(SMSG_ACTOR_MOVEMENT);
 
     data << GetCoach()->GetGuid();
-    data.GetPacket().append(path);
+    data.WriteRawBytes(path.data(), path.length());
 
     SendPacket(data);
 }

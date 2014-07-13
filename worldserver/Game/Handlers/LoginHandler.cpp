@@ -79,8 +79,9 @@ void WorldSession::SendLoginResult(LoginResult result)
 
 void WorldSession::SendReconnectionTicket()
 {
-    WorldPacket data(SMSG_RECONNECTION_TICKET);
+    // Disabled feature for now.
+    /*WorldPacket data(SMSG_RECONNECTION_TICKET);
     data << quint8(25);
     data << "1234567890123456789012345";
-    SendPacket(data);
+    SendPacket(data);*/
 }
