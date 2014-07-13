@@ -14,6 +14,7 @@ void OpcodeTable::Load()
     ADD_OPCODE_HANDLER(CMSG_RECONNECTION_TICKET,                    &WorldSession::HandleReconnectionTicket);
     ADD_OPCODE_HANDLER(CMSG_AUTHENTICATION,                         &WorldSession::HandleClientAuthentication);
     ADD_OPCODE_HANDLER(CMSG_COACH_CREATION,                         &WorldSession::HandleCoachCreation);
+    ADD_OPCODE_HANDLER(CMSG_COACH_MOVEMENT,                         &WorldSession::HandleCoachMovement);
 
     // Server messages (SMSG)
     ADD_OPCODE_HANDLER(SMSG_RECONNECTION_TICKET,                    &WorldSession::HandleServerSide);
@@ -22,6 +23,7 @@ void OpcodeTable::Load()
     ADD_OPCODE_HANDLER(SMSG_COACH_CREATION_REQUEST,                 &WorldSession::HandleServerSide);
     ADD_OPCODE_HANDLER(SMSG_COACH_CREATION_RESULT,                  &WorldSession::HandleServerSide);
     ADD_OPCODE_HANDLER(SMSG_COACH_INFORMATION,                      &WorldSession::HandleServerSide);
+    ADD_OPCODE_HANDLER(SMSG_ACTOR_MOVEMENT,                         &WorldSession::HandleServerSide);
     ADD_OPCODE_HANDLER(SMSG_ENTER_INSTANCE,                         &WorldSession::HandleServerSide);
 
 #undef ADD_OPCODE_HANDLER

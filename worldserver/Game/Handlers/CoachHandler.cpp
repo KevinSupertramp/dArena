@@ -58,16 +58,36 @@ void WorldSession::SendCoachInformation()
     data << coach->GetGender();
 
     // unserializeEquipment
-    data << quint16(0);
+    data << quint16(0); // length
+    // todo
 
     // unserializeCardInventory
-    data << quint16(0);
+    data << quint16(0); // length
+    // todo
+
+    // unserializeLockedSet
+    data << quint16(0); // length
+    // todo
 
     // unserializeLaddersStrength
-    data << quint8(0);
+    data << quint8(0); // count
+    // todo
 
     SendPacket(data);
 
     // World login
     SendEnterInstance();
+}
+
+void WorldSession::HandleCoachMovement(WorldPacket& packet)
+{
+    QByteArray path = packet.GetPacket();
+    qDebug() << path.size();
+
+    WorldPacket data(SMSG_ACTOR_MOVEMENT);
+
+    data << GetCoach()->GetGuid();
+    data.GetPacket().append(path);
+
+    SendPacket(data);
 }

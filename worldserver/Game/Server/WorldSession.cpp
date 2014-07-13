@@ -36,7 +36,7 @@ void WorldSession::ProcessPacket()
             in >> m_packetSize;
         }
 
-        if ((m_socket->bytesAvailable() + 2) < m_packetSize)
+        if ((m_socket->bytesAvailable()) < (m_packetSize - 2))
             return;
 
         qint8 unk;
@@ -45,18 +45,18 @@ void WorldSession::ProcessPacket()
 
         in >> unk;
         in >> opcode;
-        data = in.device()->readAll();
+        data = in.device()->read((qint64)(m_packetSize - 5));
 
         if (OpcodeTable::Exists(opcode))
         {
             OpcodeHandler opcodeHandler = OpcodeTable::Get(opcode);
-            Log::Write(LOG_TYPE_DEBUG, "Received packet opcode %s <%u> (size : %u).", opcodeHandler.name.toLatin1().data(), opcode, m_packetSize);
+            Log::Write(LOG_TYPE_DEBUG, "Received packet opcode %s <%u> (size : %u).", opcodeHandler.name.toLatin1().data(), opcode, data.size());
 
             WorldPacket packet(opcode, data);
             (this->*opcodeHandler.handler)(packet);
         }
         else
-            Log::Write(LOG_TYPE_DEBUG, "Received unhandled packet <%u> (size : %u).", opcode, m_packetSize);
+            Log::Write(LOG_TYPE_DEBUG, "Received unhandled packet <%u> (size : %u).", opcode, data.size());
 
         m_packetSize = 0;
     }

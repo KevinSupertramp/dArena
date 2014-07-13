@@ -14,6 +14,7 @@ enum Opcodes
     CMSG_RECONNECTION_TICKET                    = 33,
     CMSG_AUTHENTICATION                         = 1025,
     CMSG_COACH_CREATION                         = 2049,
+    CMSG_COACH_MOVEMENT                         = 4501,
 
     // Server messages (SMSG)
     SMSG_RECONNECTION_TICKET                    = 2,
@@ -22,6 +23,7 @@ enum Opcodes
     SMSG_COACH_CREATION_REQUEST                 = 2048,
     SMSG_COACH_CREATION_RESULT                  = 2050,
     SMSG_COACH_INFORMATION                      = 2052,
+    SMSG_ACTOR_MOVEMENT                         = 4500,
     SMSG_ENTER_INSTANCE                         = 4600
 };
 

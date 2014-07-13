@@ -3,11 +3,10 @@
 void WorldSession::SendEnterInstance()
 {
     WorldPacket data(SMSG_ENTER_INSTANCE);
-    data << float(131072);
-    data << float(0);
-    data << float(0);
-    data << short(0);
-    data << short(0);
-    data << quint8(0);
+    data << float(131072); // worldX
+    data << float(0); // worldY
+    data << short(0); // altitude
+    data << short(0); // instanceId
+    data << quint8(0); // isDynamic
     SendPacket(data);
 }

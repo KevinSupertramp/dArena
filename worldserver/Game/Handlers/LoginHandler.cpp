@@ -6,9 +6,11 @@ void WorldSession::HandleClientVersion(WorldPacket& packet)
 {
     quint8 version;
     quint16 revision;
+    QString build;
 
     packet >> version;
     packet >> revision;
+    build = packet.ReadString();
 
     QString clientVersion = QString(QString::number(version) + "." + QString::number(revision));
 
@@ -20,6 +22,7 @@ void WorldSession::HandleClientVersion(WorldPacket& packet)
         data << (quint16)version.at(1).toUShort();
         SendPacket(data);
 
+        // To be checked
         OnClose();
     }
 }

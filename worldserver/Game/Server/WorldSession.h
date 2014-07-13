@@ -53,10 +53,10 @@ public:
     void HandleReconnectionTicket(WorldPacket& packet);
     void HandleClientAuthentication(WorldPacket& packet);
     void HandleCoachCreation(WorldPacket& packet);
+    void HandleCoachMovement(WorldPacket& packet);
 
     void HandleChatMessage(WorldPacket& packet);
     void HandlePrivateMessage(WorldPacket& packet);
-    void HandleCharMovement(WorldPacket& packet);
 
     // SMSG Handlers
     void SendLoginResult(LoginResult result);
