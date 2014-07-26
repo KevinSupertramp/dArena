@@ -9,4 +9,6 @@ void WorldSession::SendEnterInstance()
     data << short(0); // instanceId
     data << quint8(0); // isDynamic
     SendPacket(data);
+
+    GetCoach()->InWorld(true);
 }

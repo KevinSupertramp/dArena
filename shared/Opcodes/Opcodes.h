@@ -27,9 +27,19 @@ enum Opcodes
     SMSG_ENTER_INSTANCE                         = 4600
 };
 
+enum OpcodeStatus
+{
+    STATUS_UNHANDLED = 0,
+    STATUS_ALWAYS,
+    STATUS_NEVER,
+    STATUS_AUTHED,
+    STATUS_IN_WORLD
+};
+
 struct OpcodeHandler
 {
     QString name;
+    OpcodeStatus status;
     void (WorldSession::*handler)(WorldPacket& packet);
 };
 
@@ -41,10 +51,11 @@ class OpcodeTable
 public:
     static void Load();
 
-    static void Add(quint16 opcode, char const* name, opcodeHandler handler)
+    static void Add(quint16 opcode, char const* name, OpcodeStatus status, opcodeHandler handler)
     {
         OpcodeHandler opcodeHandler;
         opcodeHandler.name = QString(name);
+        opcodeHandler.status = status;
         opcodeHandler.handler = handler;
 
         opcodesList.insert(Opcodes(opcode), opcodeHandler);

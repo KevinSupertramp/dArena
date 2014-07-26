@@ -13,7 +13,7 @@ SET time_zone = "+00:00";
 --
 -- Base de données: `darena_auth`
 --
-CREATE DATABASE `darena_auth` DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci;
+CREATE DATABASE IF NOT EXISTS `darena_auth` DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 USE `darena_auth`;
 
 -- --------------------------------------------------------

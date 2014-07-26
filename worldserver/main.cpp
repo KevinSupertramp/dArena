@@ -44,5 +44,10 @@ int main(int argc, char *argv[])
 
     signal(SIGINT, &stop);
     signal(SIGTERM, &stop);
+    #ifdef Q_OS_UNIX
+        signal(SIGHUP, &stop);
+    #elif defined(Q_OS_WIN)
+        signal(SIGBREAK, &stop);
+    #endif
     return a.exec();
 }

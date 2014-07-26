@@ -13,7 +13,7 @@ SET time_zone = "+00:00";
 --
 -- Base de données: `darena_coach`
 --
-CREATE DATABASE `darena_coach` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
+CREATE DATABASE IF NOT EXISTS `darena_coach` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
 USE `darena_coach`;
 
 -- --------------------------------------------------------

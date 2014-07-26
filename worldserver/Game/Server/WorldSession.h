@@ -43,6 +43,8 @@ public:
 
     virtual void ProcessPacket();
 
+    void LogoutPlayer(bool save = true);
+
     // Default handlers
     void HandleNULL(WorldPacket& /*packet*/) {}
     void HandleServerSide(WorldPacket& /*packet*/) {}
@@ -70,6 +72,7 @@ public slots:
 private:
     sAccountInfos m_accountInfos;
     Coach* m_coach;
+    bool m_logout;
 };
 
 #endif // WORLDSESSION_H

@@ -46,6 +46,9 @@ public:
     void SetInstanceId(quint16 instanceId) { m_instanceId = instanceId; }
     quint16 GetInstanceId() { return m_instanceId; }
 
+    void InWorld(bool inWorld) { m_inWorld = inWorld; }
+    bool IsInWorld() { return m_inWorld; }
+
     bool Create(quint64 guid, sCoachCreateInfos createInfos);
     bool LoadFromDB();
     void SaveToDB(bool create = false);
@@ -67,6 +70,8 @@ private:
     qint16 m_positionZ;
     quint8 m_direction;
     quint16 m_instanceId;
+
+    bool m_inWorld;
 };
 
 #endif // COACH_H

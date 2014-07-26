@@ -12,18 +12,22 @@ WorldSession::WorldSession(QTcpSocket *socket) : SocketHandler(socket)
 
     SetCoach(NULL);
 
+    m_logout = false;
+
     connect(m_socket, SIGNAL(disconnected()), this, SLOT(OnClose()));
     Log::Write(LOG_TYPE_NORMAL, "New incoming connection from %s", m_socket->peerAddress().toString().toLatin1().data());
 }
 
 WorldSession::~WorldSession()
 {
-    qDebug() << "delete m_character";
-    delete m_coach;
+    LogoutPlayer();
 }
 
 void WorldSession::ProcessPacket()
 {
+    if (m_logout)
+        return;
+
     QDataStream in(m_socket);
 
     while (m_socket->bytesAvailable())
@@ -50,10 +54,30 @@ void WorldSession::ProcessPacket()
         if (OpcodeTable::Exists(opcode))
         {
             OpcodeHandler opcodeHandler = OpcodeTable::Get(opcode);
-            Log::Write(LOG_TYPE_DEBUG, "Received packet opcode %s <%u> (size : %u).", opcodeHandler.name.toLatin1().data(), opcode, data.size());
-
             WorldPacket packet(opcode, data);
-            (this->*opcodeHandler.handler)(packet);
+
+            switch (opcodeHandler.status)
+            {
+            case STATUS_UNHANDLED:
+                Log::Write(LOG_TYPE_DEBUG, "Received unhandled packet <%u> (size : %u).", opcode, data.size());
+                break;
+            case STATUS_NEVER:
+                Log::Write(LOG_TYPE_DEBUG, "Received not allowed packet <%u> (size : %u).", opcode, data.size());
+                break;
+            default:
+                if (opcodeHandler.status == STATUS_ALWAYS ||
+                   (opcodeHandler.status == STATUS_AUTHED && GetAccountInfos().id != 0) ||
+                   (opcodeHandler.status == STATUS_IN_WORLD && (GetCoach() && GetCoach()->IsInWorld())))
+                {
+                    (this->*opcodeHandler.handler)(packet);
+                    Log::Write(LOG_TYPE_DEBUG, "Received packet opcode %s <%u> (size : %u).", opcodeHandler.name.toLatin1().data(), opcode, data.size());
+                }
+                else
+                {
+                    // Todo
+                }
+                break;
+            }
         }
         else
             Log::Write(LOG_TYPE_DEBUG, "Received unhandled packet <%u> (size : %u).", opcode, data.size());
@@ -64,11 +88,20 @@ void WorldSession::ProcessPacket()
 
 void WorldSession::OnClose()
 {
-    Coach* coach = GetCoach();
-    if (coach)
+    LogoutPlayer();
+}
+
+void WorldSession::LogoutPlayer(bool save)
+{
+    m_logout = true;
+
+    if (m_coach)
     {
-        coach->SaveToDB();
-        qDebug() << "Character " << coach->GetName() << " saved to DB.";
+        if (save)
+            m_coach->SaveToDB();
+
+        delete m_coach;
+        SetCoach(NULL);
     }
 
     World::Instance()->RemoveSession(this);

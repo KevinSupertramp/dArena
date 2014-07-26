@@ -22,7 +22,8 @@ void SocketHandler::OnDisconnect()
 void SocketHandler::OnClose()
 {
     Log::Write(LOG_TYPE_NORMAL, "Closing connection with %s", m_socket->peerAddress().toString().toLatin1().data());
-    m_socket->deleteLater();
+    if (m_socket)
+        m_socket->deleteLater();
 }
 
 void SocketHandler::OnError(QAbstractSocket::SocketError /*error*/)

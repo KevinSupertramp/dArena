@@ -20,6 +20,8 @@ Coach::Coach(WorldSession* session) : Unit()
     m_positionZ = 0;
     m_direction = 0;
     m_instanceId = 0;
+
+    m_inWorld = false;
 }
 
 Coach::~Coach()
