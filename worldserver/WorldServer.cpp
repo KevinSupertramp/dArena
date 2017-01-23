@@ -17,8 +17,7 @@ WorldServer::~WorldServer()
     Database::Delete();
     Log::Delete();
 
-    m_server->close();
-    delete m_server;
+    m_server->deleteLater();
 }
 
 bool WorldServer::Initialize()
@@ -46,20 +45,19 @@ bool WorldServer::Initialize()
         return false;
     }
 
-    if(!WorldServer::Instance()->Start(QHostAddress::LocalHost, quint16(ConfigMgr::World()->GetInt("WorldServerPort"))))
+    if (!WorldServer::Instance()->Start(QHostAddress::LocalHost, quint16(ConfigMgr::World()->GetInt("WorldServerPort"))))
     {
         Log::Write(LOG_TYPE_NORMAL, m_server->errorString().toLatin1().data());
         return false;
     }
-    else
-       Log::Write(LOG_TYPE_NORMAL, "Worldserver started on port %i : waiting for connections", ConfigMgr::World()->GetInt("WorldServerPort"));
 
+    Log::Write(LOG_TYPE_NORMAL, "Worldserver started on port %i : waiting for connections", ConfigMgr::World()->GetInt("WorldServerPort"));
     return true;
 }
 
 bool WorldServer::Start(QHostAddress address, quint16 port)
 {
-    if(!m_server->listen(address, port))
+    if (!m_server->listen(address, port))
         return false;
 
     connect(m_server, SIGNAL(newConnection()), this, SLOT(OnConnect()));

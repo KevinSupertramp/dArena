@@ -13,13 +13,13 @@ class CommandLine : public QThread
 {
     Q_OBJECT
 public:
-    CommandLine(QObject* parent) : QThread(parent) {}
+    CommandLine(QObject* parent = 0) : QThread(parent) {}
 
     virtual void run()
     {
         while (World::Instance()->IsRunning())
         {
-            cout << "Wakbox>";
+            cout << "dArena>";
             fflush(stdout);
 
             char* command_str;

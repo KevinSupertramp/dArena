@@ -2,11 +2,15 @@
 #include <csignal>
 
 #include "Logs/Log.h"
-#include "Game/Chat/CommandLine.h"
+#include "Chat/CommandLine.h"
+#include "WorldServer.h"
+
+CommandLine* commandLine = new CommandLine;
 
 void stop(int /*s*/)
 {
     WorldServer::Instance()->Delete();
+    commandLine->exit();
     QCoreApplication::exit();
 }
 
@@ -35,12 +39,10 @@ int main(int argc, char *argv[])
     if (!WorldServer::Instance()->Initialize())
         return close();
 
+    commandLine->start();
+
     Log::Write(LOG_TYPE_NORMAL, "Press ctrl + c to quit.");
     Log::Write(LOG_TYPE_NORMAL, "dArena started in %s sec.", QString::number(t.elapsed() / IN_MILLISECONDS).toLatin1().data());
-
-    Chat::Instance();
-    CommandLine commandLine(&a);
-    commandLine.start();
 
     signal(SIGINT, &stop);
     signal(SIGTERM, &stop);
