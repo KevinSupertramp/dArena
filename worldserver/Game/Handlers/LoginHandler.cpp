@@ -17,7 +17,7 @@ void WorldSession::HandleClientVersion(WorldPacket& packet)
     if (clientVersion != ConfigMgr::Instance()->GetWorldConfig()->GetQString("AcceptClientVersion"))
     {
         QStringList version = ConfigMgr::Instance()->GetWorldConfig()->GetQString("AcceptClientVersion").split(".");
-        WorldPacket data(SMSG_CLIENT_INVALID_VERSION);
+        WorldPacket data(SMSG_INVALID_CLIENT_VERSION);
         data << (quint8)version.at(0).toUShort();
         data << (quint16)version.at(1).toUShort();
         SendPacket(data);
@@ -72,7 +72,7 @@ void WorldSession::HandleReconnectionTicket(WorldPacket& packet)
 
 void WorldSession::SendLoginResult(LoginResult result)
 {
-    WorldPacket data(SMSG_AUTHENTICATION_RESULT);
+    WorldPacket data(SMSG_CLIENT_AUTHENTICATION_RESULTS);
     data << quint8(result);
     SendPacket(data);
 }

@@ -46,7 +46,7 @@ void WorldSession::SendCoachInformation()
         return;
     }
 
-    WorldPacket data(SMSG_COACH_INFORMATION);
+    WorldPacket data(SMSG_COACH_INFORMATIONS);
 
     // unserializeIdAndName
     data << coach->GetGuid();
@@ -67,7 +67,6 @@ void WorldSession::SendCoachInformation()
 
     // unserializeLockedSet
     data << quint16(0); // length
-    // todo
 
     // unserializeLaddersStrength
     data << quint8(0); // count
