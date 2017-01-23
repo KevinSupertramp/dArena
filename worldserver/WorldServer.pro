@@ -14,22 +14,27 @@ CONFIG   -= app_bundle
 
 TEMPLATE = app
 
-unix {
+unix:!macx {
     LIBS += -L"/usr/lib/libcryptopp" -lcryptopp
 }
 
-win32 {
-    LIBS += -L"C:/CryptoCPP/lib" -lcryptopp
-    INCLUDEPATH += C:/CryptoCPP/include
+macx: {
+    LIBS += -L"/usr/local/lib/" -lcryptopp
 }
 
-INCLUDEPATH += . ../shared ../worldserver ../worldserver/Game
-DEPENDPATH += . ../shared ../worldserver ../worldserver/Game
+win32 {
+    LIBS += -L"C:/CryptoPP/lib" -lcryptopp563
+    INCLUDEPATH += C:/CryptoPP/include
+}
+
+INCLUDEPATH += . ../dep ../shared ../worldserver ../worldserver/Game
+DEPENDPATH += . ../dep ../shared ../worldserver ../worldserver/Game
 
 SOURCES += main.cpp \
     WorldServer.cpp
 
 HEADERS += WorldServer.h
 
+include(../dep/Dep.pri)
 include(../shared/Shared.pri)
 include(Game/Game.pri)
