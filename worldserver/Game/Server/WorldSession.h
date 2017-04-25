@@ -40,6 +40,7 @@ public:
 
     void SetCoach(Coach* coach) { m_coach = coach; }
     Coach* GetCoach() const { return m_coach; }
+    bool HasCoach() { return m_coach != NULL; }
 
     virtual void ProcessPacket();
 
@@ -65,6 +66,7 @@ public:
     void SendReconnectionTicket();
     void SendCoachInformation();
     void SendEnterInstance();
+    void SendActorSpawn();
 
 public slots:
     void OnClose();

@@ -39,3 +39,16 @@ void World::RemoveSession(WorldSession* session)
     m_sessions.removeOne(session);
 }
 
+SessionList &World::GetSessions()
+{
+    return m_sessions;
+}
+
+void World::SendPacketToAll(WorldPacket &packet)
+{
+    for (SessionList::ConstIterator itr = m_sessions.begin(); itr != m_sessions.end(); ++itr)
+    {
+        if ((*itr))
+            (*itr)->SendPacket(packet);
+    }
+}

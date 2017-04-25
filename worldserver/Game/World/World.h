@@ -22,6 +22,9 @@ public:
 
     void AddSession(WorldSession* session);
     void RemoveSession(WorldSession* session);
+    SessionList& GetSessions();
+
+    void SendPacketToAll(WorldPacket &packet);
 
 private:
     bool m_running;
